@@ -4,6 +4,8 @@ import Dashboard from '../../Pages/Mahasiswa/dashboard';
 import Login from '../../Pages/Mahasiswa/Login';
 import Register from '../../Pages/Mahasiswa/Register';
 import UpdateProfile from '../../Pages/Mahasiswa/Updateprofile';
+import Approved from '../../Pages/OperatorVD/Approved';
+import Approving from '../../Pages/OperatorVD/Approving';
 
 
 const Routing = () => {
@@ -21,6 +23,12 @@ const Routing = () => {
       </Route>
       <Route path='/register'>
         <Register />
+      </Route>
+      <Route path='/approving'>
+        <Approving />
+      </Route>
+      <Route path='/approved'>
+        <Approved />
       </Route>
     </Switch>
   </Router>

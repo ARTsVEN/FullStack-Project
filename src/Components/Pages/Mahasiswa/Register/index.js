@@ -1,109 +1,90 @@
-import React, { useState } from 'react'
-import firebase from '../../../Config/Firebase';
-import { useHistory } from 'react-router-dom';
+import React, {useState} from 'react'
+import firebase from 'firebase';
+import {useHistory, Link} from "react-router-dom";
+import Header from '../../../Molecules/Header';
+// import NavBar from '../../molecules/NavBar';
+
 
 const Register = () => {
-    const [noReg, setNoReg] = useState ("");
-    const [name, setName] = useState ("");
-    const [email, setEmail] = useState ("");
-    const [password, setPassword] =useState ("");
 
-    let history= useHistory ();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [fullName, setFullName] = useState("");
+
+    let history = useHistory();
+    const onLogin = () => history.push('/login');
 
     const onSubmit = () => {
 
-        const dataMahasiswa = {
-            noReg:noReg,
-            name : name,
-            email : email,
-            password : password,
-        
+        const data = {
+            email: email,
+            fullName: fullName,
         }
 
-        firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          // Signed in 
-          const userId = userCredential.user.uid;
-          // ...
-          console.log(userCredential)
-            //Save to Realtime Db
-            firebase.database().ref('users/' + userId).set({
-                dataMahasiswa
-            });
-        
-        //Refresh Data
-        setNoReg ('')
-        setEmail ('')
-        setName ('')
-        setPassword ('')
+  firebase
+  .auth().createUserWithEmailAndPassword(email, password)
+  .then((userCredential) => {
+    //simpan ke realtime database
+    const userID = userCredential.user.uid;
+    firebase
+    .database()
+    .ref('OperatorAcc/' + userID)
+    .set(data);
 
-        //redirect ke login
-        history.push("/login")
-        })
-        .catch((error) => {
-        //   const errorCode = error.code;
-        //   const errorMessage = error.message;
-          // ..
-          console.log(error)
-        });
-        
-        // const dataMahasiswa = {
-        //     noReg:noReg,
-        //     name : name,
-        //     email : email,
-        //     password : password,
-        // };
-        // console.log(dataMahasiswa);
+    setFullName("");
+    setEmail("");
+    setPassword("");    
+    //redirect ke halaman login
+    history.push("/login");
+    console.log(userCredential)
+  })
+  .catch((error) => {
+    console.log(error);
+    //tampilkan pesan error 
+  });
     };
 
-
-  return (
-    <div >
-                    <h2>Sistem Pengurusan Status Village Dean</h2>
-            <h5>Registrasi Mahasiswa</h5>
-            <br/>
-            <br/>
-            <p>Nama Mahasiswa</p>
-                <input 
-                className="form-control"
-                placeholder="Masukkan Nama Mahasiswa" 
-                value={name} 
-                onChange={(e) => setName(e.target.value)}/>
-            <br/>
-            <br/>
-            <br/>
-            <p>Email</p>
-                <input 
-                className="form-control"
-                placeholder="Masukkan Email" 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)}/>
-            <br/>
-            <br/>
-            <p>Nomor Registrasi</p>
-                <input 
-                className="form-control"
-                placeholder="Masukkan Nomor Registrasi" 
-                value={noReg} 
-                onChange={(e) => setNoReg(e.target.value)}/>
-            <br/>
-            <br/>
-            <p>Password</p>
-                <input 
-                className="form-control"
-                placeholder="Masukkan Password" 
-                type="password" 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}/>
-            <br/>
-            <br/>
-            <button type="button" onClick={onSubmit} class="btn btn-secondary">
-                Register
-            </button>
-    </div>
-  )
+    return (
+        <div style={{ minHeight:'100vh',
+          backgroundImage: `url("http://www.questarai.com/wp-content/uploads/2016/10/fullwidth-header-background-image-1080x720.png")`}}>
+        <Header />
+        <div className ="col-md-4 shadow p-3 card container mt-3">
+        <h1 className="container mt-4">Register Account</h1>
+        <p className="form-label mt-4">Nama Lengkap</p>
+      <input
+        className="form-control"
+        placeholder="Masukan nama Lengkap"
+        value={fullName}
+        onChange={(e) => setFullName(e.target.value)}
+      />
+        <p className="form-label mt-3">Email</p>
+      <input
+        className="form-control"
+        placeholder="Masukan email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <p className="form-label mt-3">Password</p>
+      <input
+        className="form-control"
+        placeholder="Masukan password"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <br />
+      <br />
+      <button type="button" onClick={onSubmit} className="btn btn-success">
+        Buat Akun Baru
+      </button>
+      <br></br>
+      <br></br>
+      <button className="btn btn-warning" onClick={onLogin}>
+        Sudah Punya Akun
+        </button>
+      </div>
+        </div>
+    )
 }
 
 export default Register;

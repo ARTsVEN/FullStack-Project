@@ -1,4 +1,4 @@
-const NavBar = () => { 
+const NavBarZ = () => { 
   return(
     <><nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
@@ -9,10 +9,10 @@ const NavBar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="/">DashBoard</a>
+              <a className="nav-link active" aria-current="page" href="/approving">Student List</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="/input">Input Data</a>
+              <a className="nav-link active" aria-current="page" href="/approved">Approved Students</a>
             </li>
           </ul>
         </div>
@@ -21,4 +21,4 @@ const NavBar = () => {
   )
 }
 
-export default NavBar;
+export default NavBarZ;

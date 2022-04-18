@@ -8,7 +8,7 @@ const Dashboard = () => {
   let history = useHistory ();
 
   const updateProfile = () => {
-    history.push('/updateprofile');
+    history.push('/input');
   }
 
   return (
@@ -17,7 +17,7 @@ const Dashboard = () => {
       <h3>Profile</h3>
       <p>Menampilkan Data Pribadi / Profile Pengguna Mahasiswa</p>
       <button type="button" onClick={updateProfile} class="btn btn-warning">
-       Update Profile
+       Input Data
       </button>
     </div>
   )

@@ -19,12 +19,12 @@ const NavBar = () => {
       <ul className="navbar-nav">
         <li className="nav-item">
           <Link className="nav-link active" aria-current="page" to="/">
-              Profile
+              Home
           </Link>
         </li>
         <li className="nav-item">
           <Link className="nav-link active" aria-current="page" to="/updateprofile">
-              Update Profile
+              Profile
           </Link>
         </li>
         <div className="position-absolute top-10 end-0"> 

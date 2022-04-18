@@ -26,10 +26,10 @@ const UpdateProfile = () => {
     //simpan ke database
 
     //refresh data
-    setStaout('');
-    setAlamat('');
-    setAlasan('');
-    setTipett('');
+    // setStaout('');
+    // setAlamat('');
+    // setAlasan('');
+    // setTipett('');
 
 
   };
@@ -37,7 +37,10 @@ const UpdateProfile = () => {
   return (
     <div>
       <NavBar />
-      <p>Status Outsider 
+      <div className='container'>
+      <p>
+        <legend className="col-form-label col-sm-2 pt-0">Status Outsider </legend>
+        <div className='col-sm-10'>
         <input 
         type='radio'
         name='staOut'
@@ -56,6 +59,7 @@ const UpdateProfile = () => {
         value='Stados'
         onChange={(e) => setStaout(e.target.value)}
         /> Stados
+        </div>
       </p>
       <p>Tipe Tempat Tinggal 
         <input
@@ -72,7 +76,7 @@ const UpdateProfile = () => {
       <div>
         <p>
         Alamat Tempat Tinggal
-        <input placeholder=''
+        <input placeholder='Masukkan Alamat Lengkap'
         value={alamat}
         onChange={(e) => setAlamat(e.target.value)}
          />
@@ -80,7 +84,7 @@ const UpdateProfile = () => {
 
         <p>
           Keterangan / Alasan
-        <input placeholder=''
+        <input placeholder='Masukkan Keterangan / Alasan tempat tinggal'
         value={alasan}
         onChange={(e) => setAlasan(e.target.value)} />
         </p>
@@ -92,6 +96,7 @@ const UpdateProfile = () => {
             </p>
         </div>
         <button type="button" className="btn btn-primary" onClick={handleSubmit}>Submit</button>
+      </div>
       </div>
       </div>
   );

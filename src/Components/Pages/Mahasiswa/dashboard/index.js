@@ -15,6 +15,7 @@ const Dashboard = () => {
     <div>
       <NavBar />
       <h3>Profile</h3>
+      <p>Menampilkan Data Pribadi / Profile Pengguna Mahasiswa</p>
       <button type="button" onClick={updateProfile} class="btn btn-warning">
        Update Profile
       </button>

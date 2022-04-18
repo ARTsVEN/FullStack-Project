@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import firebase from "firebase";
 import { useHistory } from "react-router-dom";
 
+
 const Login =() => {
     const [noReg, setNoReg] = useState ("");
     const [password, setPassword] = useState ("");
@@ -25,8 +26,8 @@ const Login =() => {
     };
 
     return (
-        <div>
-            <h2>Sistem Pengurusan Status Village Dean</h2>
+        <div className="container">
+            <h2 >Sistem Pengurusan Status Village Dean</h2>
             <h5>Login Mahasiswa</h5>
             <br/>
                 <input 

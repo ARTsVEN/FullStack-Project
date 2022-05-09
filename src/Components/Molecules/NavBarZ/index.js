@@ -15,6 +15,9 @@ const NavBarZ = () => {
               <a className="nav-link active" aria-current="page" href="/approved">Approved Students</a>
             </li>
           </ul>
+          <li className="nav-item">
+              <a className="nav-link active" aria-current="page" href="/">Log Out</a>
+            </li>
         </div>
       </div>
     </nav></>

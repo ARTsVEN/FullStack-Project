@@ -15,6 +15,9 @@ const NavBar = () => {
               <a className="nav-link active" aria-current="page" href="/input">Input Data</a>
             </li>
           </ul>
+          <li className="nav-item">
+              <a className="nav-link active" aria-current="page" href="/">Log Out</a>
+            </li>
         </div>
       </div>
     </nav></>

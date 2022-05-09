@@ -26,19 +26,19 @@ const Login = ({ title, angka }) => {
     };
     console.log(data);
     //Check apakah akun adalah student atau operator
-    firebase.auth().signInWithEmailAndPassword(email, password).then(userCredential => {
+    firebase.auth().signInWithEmailAndPassword(email+"@unklab.ac.id", password).then(userCredential => {
       const dbRef = firebase.database().ref();
     dbRef.child("studentAcc").child(userCredential.user.uid).get().then((snapshot) => {
       if (snapshot.exists()) {
 
         console.log(snapshot.val());
-        firebase.auth().signInWithEmailAndPassword(email, password)
+        firebase.auth().signInWithEmailAndPassword(email+"@unklab.ac.id", password)
         .then(res => history.push(`/dashboard`))
         .catch((error)=> console.log("Error!",error))
 
       } else {
         console.log("Operator");
-        firebase.auth().signInWithEmailAndPassword(email, password)
+        firebase.auth().signInWithEmailAndPassword(email+"@unklab.ac.id", password)
         .then(res => history.push(`/approving`))
         .catch((error)=> console.log("Error!",error))
 
@@ -61,10 +61,10 @@ const Login = ({ title, angka }) => {
         {title} {angka}
         Login
       </h1>
-      <p className="form-label mt-5">Email</p>
+      <p className="form-label mt-5">No ID</p>
       <input
         className="form-control"
-        placeholder="Masukan email"
+        placeholder="Masukan nomor ID"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />

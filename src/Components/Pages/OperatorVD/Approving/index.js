@@ -83,6 +83,12 @@ const Approving = () => {
         }
 
         const onDeleteData = (item) => {
+            const statusRejected = {
+                email: item[Object.keys(item)[1]].email,
+                fullName: item[Object.keys(item)[1]].nama,
+                status: "Rejected",
+            } 
+            firebase.database().ref(`studentAcc/${item.id}`).set(statusRejected);
             // delete
             firebase.database().ref(`dataReq/${item.id}`).remove();
         }

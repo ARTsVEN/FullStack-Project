@@ -9,7 +9,6 @@ const Login = ({ title, angka }) => {
   const [password, setPassword] = useState("");
 
   let history = useHistory();
-  const onRegis = () => history.push('/register');
     
   useEffect(() => {
     console.log("component did mount");
@@ -25,16 +24,35 @@ const Login = ({ title, angka }) => {
       email: email,
       password: password,
     };
-    // console.log(data);
-    firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(res => history.push("/input"))
-    .catch((error)=> console.log("Error!",error))
+    console.log(data);
+    //Check apakah akun adalah student atau operator
+    firebase.auth().signInWithEmailAndPassword(email, password).then(userCredential => {
+      const dbRef = firebase.database().ref();
+    dbRef.child("studentAcc").child(userCredential.user.uid).get().then((snapshot) => {
+      if (snapshot.exists()) {
+
+        console.log(snapshot.val());
+        firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(res => history.push(`/dashboard`))
+        .catch((error)=> console.log("Error!",error))
+
+      } else {
+        console.log("Operator");
+        firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(res => history.push(`/approving`))
+        .catch((error)=> console.log("Error!",error))
+
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+    })
   };
 
   return (
     //JSX
-    <div style={{ minHeight:'100vh',
-      backgroundImage: `url("http://www.questarai.com/wp-content/uploads/2016/10/fullwidth-header-background-image-1080x720.png")`}}>
+    <div style={{backgroundSize:'cover',minHeight:'100vh',
+    backgroundImage: `url("https://images.unsplash.com/photo-1508615039623-a25605d2b022?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjV8fGJhY2tncm91bmR8ZW58MHx8MHx8&auto=format&fit=crop&w=600&q=60")`}}>
     <Header />
     <div  className="col-md-4 shadow p-3 card container mt-5">
        
@@ -65,9 +83,6 @@ const Login = ({ title, angka }) => {
       </button>
       <br></br>
       <br></br>
-      <button type="button" onClick={onRegis} className="btn btn-warning mb-5">
-        Buat Akun
-      </button>
     </div>
     </div>
   );

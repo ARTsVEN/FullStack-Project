@@ -13,10 +13,13 @@ const Routing = () => {
     <Router>
     <Switch>
     <Route exact path='/'>
-          <Dashboard />
+          <Login />
       </Route>
       <Route path='/login'>
             <Login />
+      </Route>
+      <Route path='/dashboard'>
+            <Dashboard />
       </Route>
       <Route path='/input'>
           <Input />

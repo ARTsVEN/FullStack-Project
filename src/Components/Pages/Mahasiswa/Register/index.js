@@ -19,6 +19,7 @@ const Register = () => {
         const data = {
             email: email,
             fullName: fullName,
+            status: "Belum mengajukan Outsider"
         }
 
   firebase
@@ -28,7 +29,7 @@ const Register = () => {
     const userID = userCredential.user.uid;
     firebase
     .database()
-    .ref('OperatorAcc/' + userID)
+    .ref('studentAcc/' + userID)
     .set(data);
 
     setFullName("");

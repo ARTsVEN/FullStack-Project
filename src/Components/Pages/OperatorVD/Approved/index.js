@@ -41,15 +41,15 @@ const Approved = () => {
        
 
     return (
-		<div style={{ 
-            backgroundImage: `url("https://i2.wp.com/semetonhondabalicard.com/wp-content/uploads/2014/09/Vintage-Grunge-Wood-Background-Website.jpg?ssl=1")`}}>
+		<div style={{backgroundSize:'cover', 
+        backgroundImage: `url("https://images.unsplash.com/photo-1522441815192-d9f04eb0615c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8YmFja2dyb3VuZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60")`}}>
 			{/* <Header /> */}
 			<NavBarZ />
 		
         <div>
         
-        <div style={{minHeight:'100vh',
-      backgroundImage: `url("https://coolbackgrounds.io/images/backgrounds/white/white-contour-c990a61f.svg")`}}className="container mt-5">
+        <div style={{backgroundSize:'cover',minHeight:'100vh',
+         backgroundImage: `url("https://images.unsplash.com/photo-1508615039623-a25605d2b022?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjV8fGJhY2tncm91bmR8ZW58MHx8MHx8&auto=format&fit=crop&w=600&q=60")`}}className="container mt-5">
             <h2>Approved</h2>
             <div className="col-6">
                

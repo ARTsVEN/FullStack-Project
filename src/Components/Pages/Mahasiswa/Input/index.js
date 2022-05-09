@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import firebase from '../../../Config/Firebase';
-// import Header from '../../molecules/Header';
 import NavBar from '../../../Molecules/NavBar';
 import {useHistory} from "react-router-dom";
 
@@ -16,32 +15,39 @@ const Input = () => {
         const [keterangan, setKeterangan] = useState("");
         const [statusTinggal, setStatusTinggal] = useState("");
         const [tipeTinggal, setTipeTinggal] = useState("");
+        const [users, setUsers] = useState("");
 
         let history = useHistory();
         
+        const getUserProfile = () => {
+            let userID = firebase.auth().currentUser;
+            if (userID!=null)
+            {
+              userID = userID.uid;
+              console.log(userID);
+              firebase
+              .database()
+              .ref(`studentAcc/${userID}`)
+              .on('value', res => {
+              if(res.val()) {
+                setUsers(res.val());
+                setNama(res.val().fullName)
+              }
+            });
+            }
+          };
 
-        useEffect(()=>{
-            firebase
-            .database()
-            .ref('dataReq')
-            .on('value', (res) => {
-                if (res.val()){
-                    //ubah menjadi array object
-                    const rawData = res.val()
-                    const productArr = [];
-                    // console.log(Object.keys(rawData));
-                    Object.keys(rawData).map((item) => {
-                        productArr.push({
-                            id: item,
-                            ...rawData[item],
-                        })
-                    });
-                    setProduct(productArr);
-                }
-            })
-            
-        },[]);
-        const handleGambar = e => {
+          useEffect(() => {
+            getUserProfile();
+            setTimeout(()=>{
+              getUserProfile();
+            },1000)
+            // console.log(users);
+            console.log(users.status)
+            console.log(users.fullName)
+          }, []);
+        
+    const handleGambar = e => {
             const reader = new
             FileReader();
             reader.onloadend = function (){
@@ -72,59 +78,53 @@ const Input = () => {
                 keterangan: keterangan,
                 statusTinggal: statusTinggal,
                 tipeTinggal: tipeTinggal,
+                email: users.email,
+                fullName: users.fullName,
+                // status: users.status,
             };
+            const userzData = {
+                email: users.email,
+                fullName: users.fullName,
+                status: "Pending",
+            };
+            
+            let userID = firebase.auth().currentUser;
+
+            // users.status="Pending"
             console.log(data)
-            if(button === 'Submit'){
-                // insert
-                firebase.database().ref('dataReq').push(data);
-            }else{
-                // update
-                firebase.database().ref(`dataReq/${selectedProduct.id}`).set(data);
+            console.log(users.email,"ini email")
+            console.log("ini userid   : ",userID.uid)
+            if(users.status!='Approved' && users.status!='Pending'){
+                
+                if(button === 'Submit'){
+                    // insert
+                    firebase.database().ref(`dataReq/${userID.uid}`).push(data);
+                    firebase.database().ref(`studentAcc/${userID.uid}`).set(userzData);
+                }else{
+                    // update
+                    firebase.database().ref(`dataReq/${selectedProduct.id}`).set(data);
+                }
+                //bersihkan data di form
+                resetForm();
             }
-            //bersihkan data di form
-            resetForm();
-            
-            
-        }
-
-        const onUpdateData = (item) => {
-            setNama(item.nama);
-            setNim(item.nim);
-            setGambar(item.gambar);
-            setAlamat(item.alamat);
-            setButton('Update');
-            setSelectedProduct(item);
-        }
-
-        const onDeleteData = (item) => {
-            // delete
-            firebase.database().ref(`dataReq/${item.id}`).remove();
-        }
-
-
-        const onLogout = () => {
-            firebase.auth().signOut()
-            .then(res => history.push("/login"))
-            .catch((error) => {
-                // An error happened.
-              });
-        }
-
-
+            else{
+                console.log(`Tidak bisa, user dengan email ${users.email} sudah melakukan request atau sudah di approve`)
+                }    
+            }
+        
     return (
-		<div style={{ 
-            backgroundImage: `url("https://i2.wp.com/semetonhondabalicard.com/wp-content/uploads/2014/09/Vintage-Grunge-Wood-Background-Website.jpg?ssl=1")`}}>
+		<div style={{backgroundSize: 'cover',minHeight:'100vh',
+        backgroundImage: `url("https://images.unsplash.com/photo-1522441815192-d9f04eb0615c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8YmFja2dyb3VuZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60")`}}>
 			{/* <Header /> */}
 			<NavBar />
 		
         <div>
         
-        <div style={{minHeight:'100vh',
-      backgroundImage: `url("https://coolbackgrounds.io/images/backgrounds/white/white-contour-c990a61f.svg")`}}className="container mt-5">
+            <div style={{backgroundSize : 'cover',minHeight:'100vh',
+      backgroundImage: `url("https://images.unsplash.com/photo-1508615039623-a25605d2b022?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjV8fGJhY2tncm91bmR8ZW58MHx8MHx8&auto=format&fit=crop&w=600&q=60")`}}className="container mt-5">
             <h2 className='mt-3'>Input Data</h2>
-            {/* <button className="btn btn-primary" onClick={onLogout}>Logout</button> */}
             <div className='row justify-content-evenly'>
-            <div className="col-8 mt-5">
+            <div style={{color:'#000000'}}className="col-8 mt-5">
                 <p className="">Nama</p>
                 <input className="form-control" 
                 placeholder="Masukkan Nama" 
@@ -170,7 +170,7 @@ const Input = () => {
             </div>
             <div className='col-3 bg-light border border-warning border-5 rounded mt-5 mb-5 me-2 shadow'>
                 <div className='ms-5'>
-                <p className='mt-5'>Status Outsider :
+                    <p className='mt-5'>Status Outsider :
                     <br />
                     <input
                     className='ms-3' 
@@ -218,34 +218,8 @@ const Input = () => {
                     
                     <br></br>
                 </div>
-                </div>
-            
-            
-            
-             {/* <table className="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>NIM</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        product.map(item => (
-                            <tr key={item.id}>
-                                <td>{item.nama}</td>
-                                <td>{item.nim}</td>
-                                <td>
-                                    <button className="btn btn-success" onClick={()=>onUpdateData(item)}>Edit</button>
-                                    <button className="btn btn-danger" onClick={()=>onDeleteData(item)}>Delete</button>
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table> */}
-        </div>
+            </div>
+         </div>
         </div>
         </div>
 	    </div>
